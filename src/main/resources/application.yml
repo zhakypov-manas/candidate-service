@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/cvscan
+    url: jdbc:postgresql://192.168.0.101:5432/cvscan
     username: cvscan
     password: cvscan
     driver-class-name: org.postgresql.Driver
@@ -19,7 +19,7 @@ spring:
     locations: classpath:db/migration
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: 192.168.0.101:9092
     consumer:
       group-id: candidate-service
       auto-offset-reset: earliest
@@ -29,7 +29,9 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-
+  output:
+    ansi:
+      enabled: always
 kafka:
   topics:
     cv-parsed: cv.parsed
@@ -46,7 +48,7 @@ springdoc:
 
 logging:
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] [%X{requestId}] %-5level %logger{36} - %msg%n"
+     console: "%clr(%d{yyyy-MM-dd HH:mm:ss}){faint} %clr([%thread]){blue} %clr([%X{requestId}]){yellow} %clr(%-5level){highlight} %clr(%logger{36}){cyan} - %msg%n"
   level:
     kg.tunduk: DEBUG
     org.springframework.kafka: INFO

@@ -28,7 +28,7 @@ public interface CandidateRepository extends JpaRepository<Candidate, String>, J
             WHERE (:verdict IS NULL OR c.verdict = :verdict)
               AND (:status IS NULL OR c.status = :status)
               AND (:position IS NULL OR c.position = :position)
-              AND (:search IS NULL OR LOWER(c.name) LIKE LOWER(CONCAT('%', :search, '%')))
+              AND (CAST(:search AS string) IS NULL OR c.name ILIKE CONCAT('%', CAST(:search AS string), '%'))
             """)
     Page<Candidate> findWithFilters(
             @Param("verdict") Verdict verdict,

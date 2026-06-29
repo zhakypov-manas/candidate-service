@@ -58,7 +58,7 @@ public class CandidateService {
 
     @Transactional(readOnly = true)
     public CandidateResponse getById(String id) {
-        return mapper.toResponse(findOrThrow(id));
+        return mapper.toResponse(getCandidate(id));
     }
 
     @Transactional
@@ -75,14 +75,12 @@ public class CandidateService {
 
     @Transactional
     public CandidateResponse update(String id, CandidateWriteRequest req) {
-        Candidate candidate = findOrThrow(id);
+        Candidate candidate = getCandidate(id);
         if (candidateRepository.existsByEmailAndIdNot(req.getEmail(), id)) {
             throw new DuplicateEmailException(req.getEmail());
         }
-        CandidateStatus currentStatus = candidate.getStatus();
         mapper.updateFromRequest(candidate, req);
-        // PUT does not change status
-        candidate.setStatus(currentStatus);
+
         candidate = candidateRepository.save(candidate);
         log.info("[{}] :: Updated candidate id", id);
         return mapper.toResponse(candidate);
@@ -99,7 +97,7 @@ public class CandidateService {
 
     @Transactional
     public CandidateResponse changeStatus(String id, StatusChangeRequest req) {
-        Candidate candidate = findOrThrow(id);
+        Candidate candidate = getCandidate(id);
         CandidateStatus from = candidate.getStatus();
         CandidateStatus to = req.getStatus();
 
@@ -150,7 +148,7 @@ public class CandidateService {
         log.info("[{}] :: Created candidate from Kafka event", event.getCandidateId());
     }
 
-    private Candidate findOrThrow(String id) {
+    private Candidate getCandidate(String id) {
         return candidateRepository.findById(id)
                 .orElseThrow(() -> new CandidateNotFoundException("[{}] :: Candidate not found by id", id));
     }
