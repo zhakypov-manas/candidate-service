@@ -59,12 +59,12 @@ public class CandidateMapper {
     }
 
     public Candidate fromRequest(String id, CandidateWriteRequest req) {
-        Candidate c = Candidate.builder()
+        Candidate candidate = Candidate.builder()
                 .id(id)
                 .status(CandidateStatus.NEW)
                 .build();
-        updateFromRequest(c, req);
-        return c;
+        updateFromRequest(candidate, req);
+        return candidate;
     }
 
     public Candidate fromEvent(CvParsedEvent event) {
