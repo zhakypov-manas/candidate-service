@@ -26,7 +26,7 @@ public class StatusService {
     public void validateTransition(CandidateStatus from, CandidateStatus to) {
         Set<CandidateStatus> allowed = ALLOWED_TRANSITIONS.getOrDefault(from, EnumSet.noneOf(CandidateStatus.class));
         if (!allowed.contains(to)) {
-            throw new InvalidStatusTransitionException("",from, to);
+            throw new InvalidStatusTransitionException("Invalid transition status - from: {}, to: {}",from, to);
         }
     }
 
