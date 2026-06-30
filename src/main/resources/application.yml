@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://192.168.0.101:5432/cvscan
+    url: jdbc:postgresql://localhost:5432/cvscan
     username: cvscan
     password: cvscan
     driver-class-name: org.postgresql.Driver
@@ -19,7 +19,7 @@ spring:
     locations: classpath:db/migration
 
   kafka:
-    bootstrap-servers: 192.168.0.101:9092
+    bootstrap-servers: localhost:9092
     consumer:
       group-id: candidate-service
       auto-offset-reset: earliest

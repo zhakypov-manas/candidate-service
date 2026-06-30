@@ -37,11 +37,6 @@ public abstract class AbstractIntegrationTest {
     static final KafkaContainer KAFKA = new KafkaContainer(
             DockerImageName.parse("confluentinc/cp-kafka:7.5.0"));
 
-    static {
-        POSTGRES.start();
-        KAFKA.start();
-    }
-
     @DynamicPropertySource
     static void overrideProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
